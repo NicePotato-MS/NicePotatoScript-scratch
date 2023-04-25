@@ -15,4 +15,5 @@ Contents
 
 .. toctree::
 
-   /syntax/syntax-index
+    syntax-index
+    scratch-assembly
