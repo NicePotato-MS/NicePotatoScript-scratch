@@ -54,6 +54,7 @@ Using the on operator will allow be triggered no matter what!
 Similar to function declaration in Lua, the on operator will trigger at any time.
 
 ``wait`` - Wait for x seconds
+-----------------------------
 
 ``wait`` works exactly like in scratch
 
@@ -78,11 +79,17 @@ Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``Sprite.x`` - X coordinate of a sprite
+
 ``Sprite.y`` - Y coordinate of a sprite
+
 ``Sprite.size`` - Size of a sprite
+
 ``Sprite.direction`` - Direction/Rotation of a sprite
+
 ``Sprite.volume`` - Volume of a sprite
+
 ``Sprite.costumeNumber`` - Costume number of a sprite
+
 ``Sprite.costumeName`` - Costume name of a sprite
 
 Trigger Library
