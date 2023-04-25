@@ -11,7 +11,6 @@ Operators
 ``on`` - Similar to recieving a broadcast
 -----------------------------------------
 ``on`` takes one argument, which is a trigger
-
 .. code-block::
     on TRIGGER {
         // do stuff
