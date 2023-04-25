@@ -11,13 +11,11 @@ Operators
 ``on`` - Similar to recieving a broadcast
 -----------------------------------------
 ``on`` takes one argument, which is a trigger
-.. code-block::
     on TRIGGER {
         // do stuff
     }
 
 An example usage would be with ``GREEN_FLAG``, a trigger that fires when the green flag is pressed
-.. code-block::
     on GREEN_FLAG {
         // do stuff after green flag pressed
     }
