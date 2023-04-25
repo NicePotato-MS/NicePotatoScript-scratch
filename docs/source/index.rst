@@ -15,5 +15,4 @@ Contents
 
 .. toctree::
 
-   usage
-   api
+   /syntax/syntax-index
