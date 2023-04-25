@@ -6,26 +6,29 @@ Contains all of the syntax/keywords of PotatoScratchScript
 Operators
 =========
 
-on
---
+
 
 ``on`` - Similar to recieving a broadcast
+-----------------------------------------
+``on`` takes one argument, which is a trigger
 
-``test``
---------
+.. code-block::
+    on TRIGGER {
+        // do stuff
+    }
 
-``test```
+An example usage would be with ``GREEN_FLAG``, a trigger that fires when the green flag is pressed
+.. code-block::
+    on GREEN_FLAG {
+        // do stuff after green flag pressed
+    }
 
-``wow``
----
-
-``wow``
-
-Globals
+Trigger
 =======
 
-triggers
+Globals
 --------
 
 ``GREEN_FLAG`` - fires whenever green flag is clicked
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
