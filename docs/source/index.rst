@@ -1,13 +1,10 @@
-Welcome to Lumache's documentation!
-===================================
+Welcome to PotatoScratch's documentation!
+=========================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+**PotatoScratch** is a text-based programming language made for scratch.
+It takes your program (text-form) and compiles it into a scratch project (sb3)
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+Check out the :doc:`/syntax/syntax-index`` for language syntax
 
 .. note::
 
