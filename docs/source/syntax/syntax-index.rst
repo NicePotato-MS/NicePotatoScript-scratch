@@ -1,12 +1,17 @@
 Syntax Index
 ============
 
-
-:ref:`_operators`
-
-.. _operators:
+Contains all of the syntax/keywords of PotatoScratchScript
 
 Operators
----------
+=========
 
+on
+--
 ``on`` - Similar to recieving a broadcast
+
+Globals
+-------
+
+````
+
