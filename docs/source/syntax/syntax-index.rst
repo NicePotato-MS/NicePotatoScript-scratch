@@ -1,9 +1,12 @@
 Syntax Index
 ============
 
-Contents
---------
 
-.. toctree::
+:ref:`_operators`
 
-   operators
+.. _operators:
+
+Operators
+---------
+
+``on`` - Similar to recieving a broadcast
