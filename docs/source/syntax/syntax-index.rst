@@ -8,10 +8,24 @@ Operators
 
 on
 --
+
 ``on`` - Similar to recieving a broadcast
 
-Globals
--------
+``test``
+--------
 
-````
+``test```
+
+``wow``
+---
+
+``wow``
+
+Globals
+=======
+
+triggers
+--------
+
+``GREEN_FLAG`` - fires whenever green flag is clicked
 
