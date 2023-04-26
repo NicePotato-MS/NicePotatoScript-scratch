@@ -1,0 +1,20 @@
+# == Property IDs ==
+# 4 - Number (decimal)
+# 5 - Positive Number (positive decimal)
+# 6 - Positive Integer (positive no decimal)
+# 7 - Integer (no decimal)
+# 8 - Angle [just use 4]
+# 9 - Color (hex "#XXXXXX")
+# 10 - String (string)
+# 11 - Broadcast (broadcast name, broadcast ID)
+# 12 - Variable (variable name, variable ID, ~x, ~y)
+# 13 - List (list name, list id, ~x, ~y)
+# ~ x+y are only required if it is a top-level block
+
+# I believe the i[x,(y)] x part of this is for the shadow ENUM? always set to 1?
+
+# https://github.com/scratchfoundation/scratch-parser/blob/master/lib/sb3_definitions.json
+
+event_whenflagclicked{
+    looks_sayforsecs(i[MESSAGE(1,(10,"Hello, world!")),SECS(1,(4,2))])
+}
