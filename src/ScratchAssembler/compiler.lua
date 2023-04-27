@@ -1,6 +1,0 @@
-
-
-local compiler = {}
-
-return compiler
-
