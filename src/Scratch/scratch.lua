@@ -1,16 +1,27 @@
 --[[
 
-Scratch library for Lua5.1 
+Scratch library for Lua 5.1 (May be compatible with other versions)
 
-Recommended:
+Recommended for Lua 5.1:
 - luarocks install bit32
 
 Without bit32, md5 calculations will be extremely slow!
+If you are using LuaJIT, you do not need to worry about this step.
+]]--
+
+--[[
+
+Dev Notes
+
+Global variables saved in stage
+Local variables saved in sprite
+
+Monitors are saved for every variable
+
 ]]--
 
 local path = debug.getinfo(1, "S").source:sub(2)
-local dir = path:match("(.*[/\\])") -- Extract the directory part of the path
-
+local dir = path:match("(.*[/\\])")
 package.path = package.path .. ";" .. dir .. "?.lua"
 
 require("./deepcopy")
@@ -142,3 +153,15 @@ scratch.metatables = {}
 scratch.metatables.__index = function(_, key)
     return scratch[key]
 end
+
+scratch.project = {}
+
+function scratch.project.new()
+    local proj = table.deepcopy(scratch.default.project)
+    
+    return 
+end
+
+scratch.sprite = {}
+scratch.costume = {}
+scratch.sound = {}
