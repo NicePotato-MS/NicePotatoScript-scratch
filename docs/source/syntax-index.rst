@@ -43,6 +43,7 @@ Operators
     }
 
 An example usage would be with ``trigger.flag``, a trigger that fires when the green flag is pressed
+Note: You may instead want to use ``trigger.init`` which is a synchronous version of ``trigger.flag`` (``trigger.init`` will be fired before anything else in the project runs)
 .. code-block::
     trigger = include Trigger
 
@@ -56,7 +57,10 @@ Similar to function declaration in Lua, the on operator will trigger at any time
 ``wait`` - Wait for x seconds
 -----------------------------
 
-``wait`` works exactly like in scratch
+``wait`` works exactly like in Scratch. Takes one argument, the wait time in seconds.
+.. code-block::
+    wait(1) // waits 1 second
+    wait(0.1) // waits 1 second (WARNING: just like in Scratch, too low of values may not work as expected!)
 
 
 

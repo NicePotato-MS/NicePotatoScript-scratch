@@ -404,7 +404,8 @@ local md5 = {
   
   ----------------------------------------------------------------
   
-  function md5.new()
+  function md5.new(doPrint)
+    if doPrint then print("Finding md5 sum. This may take a while on large files...") end
     return { a = CONSTS[65], b = CONSTS[66], c = CONSTS[67], d = CONSTS[68],
              pos = 0,
              buf = '',
@@ -412,16 +413,16 @@ local md5 = {
              finish = md5_finish }
   end
   
-  function md5.tohex(s)
+  function md5.tohex(s, doPrint)
     return format("%08x%08x%08x%08x", str2bei(sub(s, 1, 4)), str2bei(sub(s, 5, 8)), str2bei(sub(s, 9, 12)), str2bei(sub(s, 13, 16)))
   end
   
-  function md5.sum(s)
-    return md5.new():update(s):finish()
+  function md5.sum(s, doPrint)
+    return md5.new(doPrint):update(s):finish()
   end
   
-  function md5.sumhexa(s)
-    return md5.tohex(md5.sum(s))
+  function md5.sumhexa(s, doPrint)
+    return md5.tohex(md5.sum(s, doPrint))
   end
   
   return md5

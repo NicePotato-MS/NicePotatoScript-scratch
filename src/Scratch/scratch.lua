@@ -1,0 +1,107 @@
+--[[
+
+Scratch library for Lua5.1 
+
+Recommended:
+- luarocks install bit32
+
+Without bit32, md5 calculations will be extremely slow!
+]]--
+
+local scratch = {}
+
+scratch.default = {}
+
+local pfs = require("./../pfs")
+local md5 = require("./../md5")
+local wav = require("./../wav")
+local potato = require("./../potato")
+local config = require("./ASSEMBLER_CONFIG")
+
+local blank_costume_data = pfs.readFile("./InternalAssets/Costumes/blank-costume.svg")
+if blank_costume_data == nil then
+    print("Fatal: Missing blank-costume.svg")
+    os.exit(-1)
+end
+local blank_costume_hex = md5.sumhexa(blank_costume_data)
+local blank_sound_data = pfs.readFile("./InternalAssets/Sounds/blank-sound.wav")
+if blank_sound_data == nil then
+    print("Fatal: Missing blank-sound.wav")
+    os.exit(-1)
+end
+local blank_sound_hex = md5.sumhexa(blank_sound_data)
+
+scratch.default.costume = {
+    name = "NO_COSTUME",
+    bitmapResolution = 1,
+    dataFormat = "svg",
+    assetId = blank_costume_hex,
+    md5ext = blank_costume_hex..".svg",
+    rotationCenterX = 0,
+    rotationCenterY = 0
+}
+
+scratch.default.sound = {
+    name = "NO_SOUND",
+    assetId = blank_sound_hex,
+    dataFormat = "wav",
+    format = nil,
+    rate = wav.getSampleRateOfData(blank_sound_data), -- Maybe not required, but it takes next to no processing time to compute
+    sampleCount = 0, -- Scratch will fill this in for us
+    md5ext = blank_costume_hex..".wav"
+}
+
+scratch.default.sprite = {
+    isStage = false,
+    name = "DUMMY",
+    variables = {},
+    lists = {},
+    broadcasts = {},
+    blocks = {},
+    comments = {},
+    currentCostume = 0,
+    costumes = {table.deepcopy(scratch.default.costume)},
+    sounds = {},
+    volume = 100,
+    layerOrder = 1,
+    visible = true,
+    x = 0,
+    y = 0,
+    size = 100,
+    direction = 90,
+    draggable = false,
+    rotationStyle = "all around"
+}
+
+scratch.default.project = {
+    targets = {
+
+    },
+    monitors = {},
+    extensions = {},
+    meta = {
+        semver = "3.0.0",
+        vm = "1.5.29",
+        agent = config.AGENT
+    }
+}
+
+scratch.extensionList = {
+    "pen",
+    "music",
+    "videoSensing",
+    "text2speech",
+    "translate",
+    "makeymakey",
+    "microbit",
+    "ev3", -- Lego Mindstorms EV3
+    "boost", -- Lego BOOST
+    "wedo2", -- Lego Education WeDo 2.0
+    "gdxfor" -- Go direct force and acceleration
+}
+
+scratch.metatables = {}
+
+scratch.metatables.__index = function(_, key)
+    return scratch[key]
+end

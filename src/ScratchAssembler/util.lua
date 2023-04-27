@@ -1,8 +1,9 @@
 local util = {}
 
+-- blockUIDchars ripped straight from scratch-vm source code
 local blockUIDchars = '!#%()*+,-./:;=?@[]^_`{|}~'..'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-local blockUIDlength = 20
-function SA.randomBlockUID()
+local blockUIDlength = 20 -- Do not change this
+function util.randomBlockUID()
     local id = ""
     for i=1, blockUIDlength do
         math.randomseed(os.time()+math.random(1000000,9999999))
@@ -11,10 +12,6 @@ function SA.randomBlockUID()
         id = id..randomChar
     end
     return id
-end
-
-for _=1, 10 do
-    print(SA.randomBlockUID())
 end
 
 return util
