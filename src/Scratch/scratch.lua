@@ -8,15 +8,34 @@ Recommended:
 Without bit32, md5 calculations will be extremely slow!
 ]]--
 
+local path = debug.getinfo(1, "S").source:sub(2)
+local dir = path:match("(.*[/\\])") -- Extract the directory part of the path
+
+package.path = package.path .. ";" .. dir .. "?.lua"
+
+require("./deepcopy")
+
+math.randomseed(os.time())
+
+if package.config:sub(1,1) == "\\" then
+    -- Windows
+    print("Fatal: Not compatible with Windows!")
+    os.exit(-1)
+ else
+    -- Linux (Probably)
+    package.path = "/usr/local/lib/lua/5.1/?.lua;"..package.path
+    package.cpath = "/usr/local/lib/lua/5.1/?.so;"..package.cpath
+    package.cpath = "/usr/local/lib/lua/5.1/?.dll;"..package.cpath
+ end
+
 local scratch = {}
 
 scratch.default = {}
 
-local pfs = require("./../pfs")
-local md5 = require("./../md5")
-local wav = require("./../wav")
-local potato = require("./../potato")
-local config = require("./ASSEMBLER_CONFIG")
+local pfs = require("./pfs")
+local md5 = require("./md5")
+local wav = require("./wav")
+local potato = require("./potato")
 
 local blank_costume_data = pfs.readFile("./InternalAssets/Costumes/blank-costume.svg")
 if blank_costume_data == nil then
@@ -45,7 +64,7 @@ scratch.default.sound = {
     name = "NO_SOUND",
     assetId = blank_sound_hex,
     dataFormat = "wav",
-    format = nil,
+    --format = nil
     rate = wav.getSampleRateOfData(blank_sound_data), -- Maybe not required, but it takes next to no processing time to compute
     sampleCount = 0, -- Scratch will fill this in for us
     md5ext = blank_costume_hex..".wav"
@@ -72,6 +91,24 @@ scratch.default.sprite = {
     draggable = false,
     rotationStyle = "all around"
 }
+
+scratch.default.stage = table.deepcopy(scratch.default.sprite)
+scratch.default.stage.isStage = true
+scratch.default.stage.name = "Stage"
+scratch.default.stage.layerOrder = 0
+scratch.default.stage.tempo = 60
+scratch.default.stage.videoTransparency = 50
+scratch.default.stage.videoState = "off" -- Silly scratch sometimes sets this to on by default!
+--scratch.default.stage.textToSpeechLanguage = nil
+-- Remove normal sprite values
+scratch.default.stage.visible = nil
+scratch.default.stage.x = nil
+scratch.default.stage.y = nil
+scratch.default.stage.size = nil
+scratch.default.stage.direction = nil
+scratch.default.stage.draggable = nil
+scratch.default.stage.rotationStyle = nil
+
 
 scratch.default.project = {
     targets = {
