@@ -27,8 +27,9 @@ else
     md5 = require("md5")
 end
 
-local debugData = pfs.readFile("./example.wav")
-print(md5.sumhexa(debugData))
-print(wav.getSampleRateOfData(debugData))
+local debugProj = scratch.project.new()
+local debugSprite = scratch.sprite.new()
+
+debugProj:addSprite(debugSprite)
 
 return PSS

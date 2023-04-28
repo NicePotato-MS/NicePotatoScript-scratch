@@ -194,6 +194,7 @@ scratch.extensionList = {
 
 scratch.metatables = {}
 
+--[[Project]]--
 scratch.project = {}
 scratch.metatables.project = {}
 scratch.metatables.project.__index = function(_, key)
@@ -207,9 +208,8 @@ function scratch.project.new()
 end
 
 function scratch.project:addExtension(extension)
-    extension = extension or false
-    if extension == false then
-        print("Scratch: Tried to add an extension to a project without supplying an extension!")
+    if type(extension) ~= "string" then
+        print("Scratch: Tried to add an extension to a project without supplying a string!")
         return false
     end
     for k, v in pairs(self.extensions) do
@@ -222,6 +222,35 @@ function scratch.project:addExtension(extension)
     return true
 end
 
+function scratch.project:removeExtension(extension)
+    if type(extension) ~= "string" then
+        print("Scratch: Tried to remove an extension from a project without supplying a string!")
+        return false
+    end
+    local removed = false
+    for k, v in pairs(self.extensions) do
+        if v == extension then
+            removed = true
+            self.extensions[k] = nil
+        end
+    end
+    if removed then
+        return true
+    else
+        print("Scratch: Tried to remove an extension from a project that doesn't have it!")
+        return false
+    end
+end
+
+function scratch.project:addSprite(sprite)
+    if getmetatable(sprite) ~= scratch.metatables.sprite then
+        print("Scratch: Tried to add a non-sprite object to a project as a sprite!")
+        return false
+    end
+    
+end
+
+--[[Sprite]]--
 scratch.sprite = {}
 scratch.metatables.sprite = {}
 scratch.metatables.sprite.__index = function(_, key)
@@ -233,7 +262,7 @@ function scratch.sprite.new(name, requiredCostume, layerOrder, visible, x, y, si
     --[[
     layerOrder = 1,
     ]]--
-    name = name or "SPRITE_"..util.randomUID
+    name = name or "SPRITE_"..util.randomUID()
     x = x or 0
     y = y or 0
     size = size or 100
@@ -260,9 +289,10 @@ function scratch.sprite.new(name, requiredCostume, layerOrder, visible, x, y, si
     spr.layerOrder = layerOrder
     spr.currentCostume = 0
     setmetatable(spr, scratch.metatables.sprite)
-    return 
+    return spr
 end
 
+--[[Costume]]--
 scratch.costume = {}
 scratch.metatables.costume = {}
 scratch.metatables.costume.__index = function(_, key)
@@ -271,7 +301,7 @@ end
 
 -- Use layerOrder = "auto" to have it automatically assigned
 function scratch.costume.new(name, costumeData, fileType)
-    name = name or "COSTUME_"..util.randomUID
+    name = name or "COSTUME_"..util.randomUID()
     fileType = fileType or "none"
     costumeData = costumeData or false
     if costumeData == false then
@@ -298,6 +328,8 @@ function scratch.costume.new(name, costumeData, fileType)
     end
 end
 
+
+--[[Sound]]--
 scratch.sound = {}
 scratch.metatables.sound = {}
 scratch.metatables.sound.__index = function(_, key)
@@ -311,7 +343,7 @@ function scratch.sound.new(name, wavdata)
         return nil
     end
     local hex = md5.sumhexa(wavdata)
-    name = name or "SOUND_"..util.randomUID
+    name = name or "SOUND_"..util.randomUID()
     local snd = table.deepcopy(scratch.default.sound)
     snd.name = name
     snd.assetId = hex
@@ -321,3 +353,5 @@ function scratch.sound.new(name, wavdata)
     setmetatable(snd, scratch.metatables.sound)
     return snd
 end
+
+return scratch
