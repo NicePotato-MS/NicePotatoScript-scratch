@@ -29,15 +29,48 @@ require("./deepcopy")
 
 math.randomseed(os.time())
 
+local md5
+
 if package.config:sub(1,1) == "\\" then
     -- Windows
-    print("Fatal: Not compatible with Windows!")
+    print("Fatal: Not compatible with Windows! (yet)")
     os.exit(-1)
  else
     -- Linux (Probably)
-    package.path = "/usr/local/lib/lua/5.1/?.lua;"..package.path
-    package.cpath = "/usr/local/lib/lua/5.1/?.so;"..package.cpath
-    package.cpath = "/usr/local/lib/lua/5.1/?.dll;"..package.cpath
+    local lua_version = string.sub(_VERSION, 5) -- Detect Lua version
+    local lua_dir = "/usr/local/lib/lua/"..lua_version
+
+    -- Check if Lua directory exists before updating package.path and package.cpath
+    local dir_exists = io.open(lua_dir)
+    if dir_exists then
+        dir_exists:close()
+        package.path = lua_dir.."/?.lua;"..package.path
+        package.cpath = lua_dir.."/?.so;"..package.cpath
+        package.cpath = lua_dir.."/?.dll;"..package.cpath
+
+        -- Check for quick MD5 library
+        local ok, cmd5 = pcall(require, 'md5')
+        if not ok then
+            print("Scratch: Quick MD5 library is not found, resorting to slow MD5 library.")
+            print("Scratch: If you have luarocks installed, try 'sudo luarocks install md5")
+
+            -- Check for bit library
+            local ok, bit = pcall(require, 'bit')
+            if not ok then
+                local ok, bit32 = pcall(require, 'bit32')
+                if not ok then
+                    print("Scratch: No bit library installed! Calculating slow MD5 hash will be VERY slow!")
+                    print("Scratch: If you have luarocks installed, try 'sudo luarocks install bit32'")
+                end
+            end
+            md5 = require("luamd5")
+        else
+            md5 = require("md5")
+        end
+    else
+        print("Scratch: Lua libraries not found in /usr/local/lub/lua/5.X")
+        print("Scratch: Beware of errors!")
+    end
  end
 
 local scratch = {}
@@ -47,8 +80,12 @@ scratch._LABEL = "early0.1"
 
 scratch.default = {}
 
+-- Below is an example agent I pulled from my project edited on a windows machine.
+-- You shouldn't need to change this, nor is it recommended.
+scratch.default.agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+
+
 local pfs = require("./pfs")
-local md5 = require("./md5")
 local wav = require("./wav")
 local util = require("./util")
 local potato = require("./potato")
@@ -137,7 +174,7 @@ scratch.default.project = {
     meta = {
         semver = "3.0.0",
         vm = "1.5.29",
-        agent = config.AGENT
+        agent = scratch.default.agent
     }
 }
 
@@ -158,6 +195,7 @@ scratch.extensionList = {
 scratch.metatables = {}
 
 scratch.project = {}
+scratch.metatables.project = {}
 scratch.metatables.project.__index = function(_, key)
     return scratch.project[key]
 end
@@ -185,6 +223,7 @@ function scratch.project:addExtension(extension)
 end
 
 scratch.sprite = {}
+scratch.metatables.sprite = {}
 scratch.metatables.sprite.__index = function(_, key)
     return scratch.sprite[key]
 end
@@ -225,6 +264,7 @@ function scratch.sprite.new(name, requiredCostume, layerOrder, visible, x, y, si
 end
 
 scratch.costume = {}
+scratch.metatables.costume = {}
 scratch.metatables.costume.__index = function(_, key)
     return scratch.costume[key]
 end
@@ -259,6 +299,7 @@ function scratch.costume.new(name, costumeData, fileType)
 end
 
 scratch.sound = {}
+scratch.metatables.sound = {}
 scratch.metatables.sound.__index = function(_, key)
     return scratch.sound[key]
 end
