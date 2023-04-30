@@ -51,7 +51,7 @@ direction
 
 --Blocks
 
-say()for()
+sayFor()for()
 say()
 think()for()
 switchCostume()
@@ -129,10 +129,13 @@ waitUntil<>
 wait()
 createCloneOf()
 
+--Special
+
+stop[]
+
 --Caps
 
 forever{}
-stop()
 deleteThisClone
 
 
