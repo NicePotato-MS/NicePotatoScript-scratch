@@ -1,6 +1,6 @@
 () - Reporter
 {} - Section of C
-[] - List
+[] - Menu
 <> - Boolean
 :: - special (define)
 ~ - Init character (eg var, list name)
@@ -242,7 +242,7 @@ lengthOfList[]
 custom:func():
 
 --Reporters
-val:valName:
+var:valName:
 
 --Hats
 define:func(valName):as{}
