@@ -1,8 +1,9 @@
-Welcome to PotatoScratch's documentation!
+Welcome to NicePotatoScript's documentation!
 =========================================
 
-**PotatoScratch** is a text-based programming language made for scratch.
+**NicePotatoScript (NPS)** is a text-based programming language made for scratch.
 It takes your program (text-form) and compiles it into a scratch project (sb3)
+I may expand PotatoScript into an independent language in the future, but right now it's for Scratch.
 
 Check out the :doc:`/syntax/syntax-index` for language syntax
 
@@ -16,4 +17,4 @@ Contents
 .. toctree::
 
     syntax-index
-    scratch-assembly
+    sbt

@@ -16,5 +16,5 @@
 # https://github.com/scratchfoundation/scratch-parser/blob/master/lib/sb3_definitions.json
 
 event_whenflagclicked{
-    looks_sayforsecs(i[MESSAGE(1,(10,"Hello, world!")),SECS(1,(4,2))])
+    looks_sayforsecs("Hello, world!")(2)
 }

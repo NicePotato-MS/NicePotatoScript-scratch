@@ -1,7 +1,7 @@
 Syntax Index
 ============
 
-Contains all of the syntax/keywords of PotatoScratchScript (PSS)
+Contains all of the syntax/keywords of NicePotatoScript (NPS)
 
 Basics
 ======
@@ -21,7 +21,7 @@ Indentation is optional! Unlike a language like Python, you don't need to use a 
 Classes
 -------
 
-PSS uses a class-like system for many things. A big example is the ``Sprite`` class.
+NPS uses a class-like system for many things. A big example is the ``Sprite`` class.
 
 
 
@@ -31,12 +31,15 @@ Operators
 ``include`` - Include a library
 -------------------------------
 
-``include`` can be used to include a builtin library, or an external one
+``include`` can be used to include a builtin library or file
 
-``on`` - Similar to recieving a broadcast
+``on fire`` - Similar to recieving a broadcast
 -----------------------------------------
 
-``on`` takes one argument, which is a trigger
+``fire`` will activate, or fire, a trigger which can be picked up by ``on``
+
+
+``on`` takes one argument, which is a trigger or a string
 .. code-block::
     on <TRIGGER> {
         // do stuff
@@ -51,8 +54,7 @@ Note: You may instead want to use ``trigger.init`` which is a synchronous versio
         // do stuff after green flag pressed
     }
 
-Using the on operator will allow be triggered no matter what!
-Similar to function declaration in Lua, the on operator will trigger at any time.
+Similar to how functions are defined in lua, you can define an ``on`` anywhere in the script, and it can be triggered before or after its declaration.
 
 ``wait`` - Wait for x seconds
 -----------------------------
@@ -60,9 +62,44 @@ Similar to function declaration in Lua, the on operator will trigger at any time
 ``wait`` works exactly like in Scratch. Takes one argument, the wait time in seconds.
 .. code-block::
     wait(1) // waits 1 second
-    wait(0.1) // waits 1 second (WARNING: just like in Scratch, too low of values may not work as expected!)
+    wait(0.1) // waits 0.1 second (WARNING: just like in Scratch, too low of values may not work as expected!)
 
+``if else elseif``
+------------------
 
+``switch-case`` - Similar to C/C++'s switch-case
+------------------------------------------------
+
+``switch`` and ``case`` are two independent instructions. They can be used like many ifelses, but it is a lot neater.
+.. code-block::
+    var = "Example"
+    switch var { // Also works with any literal declaration (e.g. switch "String")
+        case "Example" { // Run code in {} if var == "Example"
+            // var == "Example" so run code
+        }
+        case "Never" {
+            // var != "Never" so do not run this code
+        }
+        case { // If switch matches no case, run this code
+            // Code
+        }
+    }
+
+Variables can also be used as a ``case``
+.. code-block::
+    var = "Example"
+    match = "Example"
+    nomatch = "Never"
+    switch var {
+        case match {
+            // Code here will run, var == match ("Example" == "Example")
+        }
+        case nomatch {
+            // Code here will never run, var != nomatch ("Example" != "Never")
+        }
+    }
+
+You cannot have multiple of the same cases as it compiles into many ifelse blocks on Scratch
 
 Sprite Library
 ==============
@@ -102,6 +139,9 @@ Trigger Library
 Variables
 ---------
 
+``init`` - triggers once on startup. Runs synchronously
 ``flag`` - fires whenever green flag is clicked
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``tick`` - fires every frame (NPS handles this for you)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

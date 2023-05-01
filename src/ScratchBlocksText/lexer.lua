@@ -9,17 +9,45 @@ Comments #
 
 ]]--
 
-require("./language")
+-- I am too lazy to make a state machine 🤯
+
+local path = debug.getinfo(1, "S").source:sub(2)
+local dir = path:match("(.*[/\\])")
+package.path = package.path .. ";" .. dir .. "?.lua"
+
+require("language")
+
+local literal
+local def
+local char
+local buffer
+local mode
+
+local function clearBuffer()
+    buffer = buffer:gsub(" ","")
+    buffer = buffer:gsub("\n","")
+    if buffer ~= "" then
+        if tonumber(buffer) then
+            table.insert(literal, buffer)
+            table.insert(def, "number")
+            buffer = ""
+        else
+            table.insert(literal, buffer)
+            table.insert(def, "opcode")
+            buffer = ""
+        end
+    end
+end
 
 local function lexer(script)
-    local literal = {}
-    local def = {}
+    literal = {}
+    def = {}
     script = script:gsub("\t","    ")
-    local mode = "normal"
-    local buffer = ""
+    mode = "normal"
+    buffer = ""
     local pointer = 1
     for i = 1, #script do
-        local char = script:sub(i, i)
+        char = script:sub(i, i)
         if mode == "normal" then
             if char == "(" then
                 clearBuffer()
@@ -53,23 +81,52 @@ local function lexer(script)
                 clearBuffer()
                 table.insert(literal, ">")
                 table.insert(def, "closeBool")
-            elseif char == "*" then
+            elseif char == '"' then
+                clearBuffer()
+                mode = "string"
+                buffer = '"'
+            elseif char == '*' then
                 clearBuffer()
                 mode = "literal"
-            end
-        end
-        if char == '"' then
-            if mode == "string" then
-                
+                buffer = '*'
+            elseif char == "#" then
+                clearBuffer()
+                mode = "comment"
+            elseif char == " " then
+                clearBuffer()  
             else
+                buffer = buffer..char
+            end
+        elseif mode == "string" then
+            if char == '"' then
+                table.insert(literal, buffer..'"')
+                table.insert(def, "string")
+                buffer = ""
+                mode = "normal"
+            elseif char == '\\' then
+                i = i+1
+                buffer = buffer..char..script:sub(i,i)
+            else
+                buffer = buffer..char
+            end
+        elseif mode == "literal" then
+            if char == '*' then
+                table.insert(literal, buffer..'*')
+                table.insert(def, "literal")
+                buffer = ""
+                mode = "normal"
+            elseif char == '\\' then
+                i = i+1
+                buffer = buffer..char..script:sub(i,i)
+            else
+                buffer = buffer..char
+            end
+        elseif mode == "comment" then
+            if char == "\n" then mode = "normal" end
         end
     end
 
     return literal, def
-end
-
-local function clearBuffer()
-
 end
 
 return lexer
