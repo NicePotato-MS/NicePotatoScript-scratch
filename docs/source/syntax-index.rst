@@ -140,6 +140,7 @@ Variables
 ---------
 
 ``init`` - triggers once on startup. Runs synchronously
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``flag`` - fires whenever green flag is clicked
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``tick`` - fires every frame (NPS handles this for you)
